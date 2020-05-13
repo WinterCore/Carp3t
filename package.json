@@ -10,17 +10,17 @@
   "author": "WinterCore",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^16.9.19",
-    "@types/react-dom": "^16.9.5",
-    "@types/styled-components": "^4.4.2",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.0",
+    "ts-loader": "^7.0.4",
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "styled-components": "^5.0.0"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0"
   }
 }
