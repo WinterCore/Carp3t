@@ -1,5 +1,5 @@
 {
-  "name": "no-cheating",
+  "name": "carp3t",
   "version": "1.0.0",
   "description": "A jawaker card memorizer",
   "main": "index.js",
@@ -10,17 +10,17 @@
   "author": "WinterCore",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
-    "@types/styled-components": "^5.1.24",
-    "ts-loader": "^9.2.8",
-    "typescript": "^4.6.3",
-    "webpack": "^5.72.0",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "@types/styled-components": "^5.1.25",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.4",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "styled-components": "^5.3.5"
   }
 }

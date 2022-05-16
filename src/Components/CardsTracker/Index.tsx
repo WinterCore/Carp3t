@@ -2,9 +2,9 @@ import React from "react";
 
 import Card from "./Components/Card";
 
-import { Tracker, Suit } from "./styles";
+import { Tracker, Suit, SuitContainer, CARDS_SPRITE_X_MULTIPLIER, CARDS_SPRITE_SUIT_Y_POS, CARDS_SPRITE_SUIT_X_POS, CardsContainer } from "./styles";
 
-import Spy from "../../spy";
+import Spy, {GameEvent} from "../../spy";
 
 type Card = number;
 
@@ -41,7 +41,7 @@ const CardsTracker = () => {
     const [clubs, setClubs]       = React.useState<Card[]>(generateEmptySuit);
 
     React.useLayoutEffect(() => {
-        Spy.addSpy(Spy.CARD_PLAYED, ({ card, player }: PlayedCard) => {
+        Spy.addSpy(GameEvent.CARD_PLAYED, ({ card, player }: PlayedCard) => {
             const [suit, cardIndex] = getCardData(card);
 
             switch (suit) {
@@ -76,38 +76,47 @@ const CardsTracker = () => {
         }
         });
 
-        Spy.addSpy(Spy.GAME_INIT, () => {
+        Spy.addSpy(GameEvent.GAME_INIT, () => {
             setHearts(generateEmptySuit());
             setDiamonds(generateEmptySuit());
             setSpades(generateEmptySuit());
             setClubs(generateEmptySuit());
         });
 
-        Spy.addSpy(Spy.NEW_ROUND, () => {
+        Spy.addSpy(GameEvent.NEW_ROUND, () => {
             setHearts(generateEmptySuit());
             setDiamonds(generateEmptySuit());
             setSpades(generateEmptySuit());
             setClubs(generateEmptySuit());
         });
     }, []);
+
     return (
         <Tracker>
-            <div>
-                <Suit>HEARTS</Suit>
-                { hearts.map((player, i) => <Card key={ i } index={ i } player={ player } />) }
-            </div>
-            <div>
-                <Suit>DIAMONDS</Suit>
-                { diamonds.map((player, i) => <Card key={ i } index={ i } player={ player } />) }
-            </div>
-            <div>
-                <Suit>SPADES</Suit>
-                { spades.map((player, i) => <Card key={ i } index={ i } player={ player } />) }
-            </div>
-            <div>
-                <Suit>CLUBS</Suit>
-                { clubs.map((player, i) => <Card key={ i } index={ i } player={ player } />) }
-            </div>
+            <SuitContainer>
+                <Suit style={{ backgroundPosition: `-${0 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
+                <CardsContainer>
+                    {hearts.map((player, i) => <Card suitIndex={0} key={i} index={i} player={player} />)}
+                </CardsContainer>
+            </SuitContainer>
+            <SuitContainer>
+                <Suit style={{ backgroundPosition: `-${1 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
+                <CardsContainer>
+                    {diamonds.map((player, i) => <Card suitIndex={1} key={i} index={i} player={player} />)}
+                </CardsContainer>
+            </SuitContainer>
+            <SuitContainer>
+                <Suit style={{ backgroundPosition: `-${2 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
+                <CardsContainer>
+                    {spades.map((player, i) => <Card suitIndex={2} key={i} index={i} player={player} />)}
+                </CardsContainer>
+            </SuitContainer>
+            <SuitContainer>
+                <Suit style={{ backgroundPosition: `-${3 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
+                <CardsContainer>
+                    {clubs.map((player, i) => <Card suitIndex={3} key={i} index={i} player={player} />)}
+                </CardsContainer>
+            </SuitContainer>
         </Tracker>
     );
 };

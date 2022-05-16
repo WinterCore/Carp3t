@@ -3,7 +3,7 @@ import { isInGame } from "../helpers";
 import { getPlayedCard, isNewRound } from  "./parser";
 
 type SpyObject = {
-    type : Symbol,
+    type : GameEvent,
     fn   : (msg: any) => void
 }
 
@@ -15,18 +15,22 @@ const EVENTS = {
     ENGINE             : "engine"
 };
 
-class Spy {
-    static GAME_INIT   = Symbol("game init");
-    static CARD_PLAYED = Symbol("card played");
-    static NEW_ROUND   = Symbol("new round");
+export enum GameEvent {
+    GAME_INIT,
+    CARD_PLAYED,
+    NEW_ROUND,
+    CONNECTING,
+    CONNECTED,
+}
 
+class Spy {
     static spies: SpyObject[] = [];
 
     static currentGame: GameData.RootObject;
 
     static HANDLERS = {
         [EVENTS.UPDATE_ENGINE](data: any): void {
-            const fns = Spy.spies.filter(({ type }) => type === Spy.GAME_INIT);
+            const fns = Spy.spies.filter(({ type }) => type === GameEvent.GAME_INIT);
             fns.forEach(_ => _.fn(data[1]));
             Spy.currentGame = data[1];
         },
@@ -36,11 +40,11 @@ class Spy {
                 return;
             const cardData = getPlayedCard(data);
             if (cardData) {
-                const fns = Spy.spies.filter(({ type }) => type === Spy.CARD_PLAYED);
+                const fns = Spy.spies.filter(({ type }) => type === GameEvent.CARD_PLAYED);
                 fns.forEach(_ => _.fn(cardData));
             }
             if (isNewRound(data)) {
-                const fns = Spy.spies.filter(({ type }) => type === Spy.NEW_ROUND);
+                const fns = Spy.spies.filter(({ type }) => type === GameEvent.NEW_ROUND);
                 fns.forEach(_ => _.fn(data));
             }
         },
@@ -49,13 +53,13 @@ class Spy {
             if (Spy.currentGame && gameId !== Spy.currentGame.id)
                 return;
             if (command === "update_game_state" && data.action === "move") {
-                const fns = Spy.spies.filter(({ type }) => type === Spy.CARD_PLAYED);
+                const fns = Spy.spies.filter(({ type }) => type === GameEvent.CARD_PLAYED);
                 fns.forEach(_ => _.fn({ card : data.card, player : 0 }));
             }
         }
     };
 
-    static addSpy(type: Symbol, fn: (msg: any) => void) {
+    static addSpy(type: GameEvent, fn: (msg: any) => void) {
         Spy.spies.push({ type, fn });
     }
 
@@ -68,11 +72,18 @@ class Spy {
 
     static gameInit(data: GameData.RootObject) {
     }
+
+    static setConnectionState(state: GameEvent.CONNECTING | GameEvent.CONNECTED) {
+        const fns = Spy.spies.filter(({ type }) => type === state);
+        fns.forEach(_ => _.fn({}));
+    }
 }
 
 let reoverrideIntervalId = 0;
 
 const override = (): void => {
+    Spy.setConnectionState(GameEvent.CONNECTING);
+
     const originalOnMessage = window.App.comm.socket.onmessage as ((this: WebSocket, ev: MessageEvent) => any);
     const originalSend = window.App.comm.socket.send;
     const originalOnClose = window.App.comm.socket.onclose as ((this: WebSocket, ev: CloseEvent) => any);
@@ -93,8 +104,18 @@ const override = (): void => {
             }
         }, 100);
     };
+
+    Spy.setConnectionState(GameEvent.CONNECTED);
 };
 
+try {
+    override();
+} catch (e) {
+    setTimeout(override, 1000);
+}
+
+
+/*
 override();
 
 if (isInGame()) {
@@ -102,4 +123,5 @@ if (isInGame()) {
     window.App.comm.socket.close();
 }
 
+*/
 export default Spy;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {CARDS_SPRITE} from "../styles";
 
 interface ICardLabelProps {
     done   : boolean;
@@ -7,15 +8,27 @@ interface ICardLabelProps {
 
 export const CardLabel = styled.span<ICardLabelProps>`
     cursor          : pointer;
-    width           : 20px;
-    margin          : 2px;
-    height          : 20px;
-    border-radius   : 50%;
-    display         : inline-block;
+    width           : 53px;
+    height          : 38px;
+    display         : block;
     text-align      : center;
     line-height     : 20px;
-    background      : ${props => props.done ? props.color : ""};
     color           : ${props => props.done ? "#000" : "#FFF"};
-    text-decoration : ${props => props.done ? "line-through" : "initial"};
+    background-image: url(${CARDS_SPRITE});
+    background-color: white;
     font-weight     : bold;
+    position        : relative;
+    border          : 1px solid black;
+
+    ${props => props.done && (`
+        &:before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    `)}
 `;

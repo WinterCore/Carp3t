@@ -1,12 +1,12 @@
 import React from "react";
+import {CARDS_SPRITE_X_MULTIPLIER, CARDS_SPRITE_Y_MULTIPLIER, fixCardIndex} from "../styles";
 import { CardLabel } from "./styles";
-import { getCardName } from "../../../helpers";
 
 type CardProps = {
-    index  : number;
-    player : number;
+    index     : number;
+    player    : number;
+    suitIndex : number;
 }
-
 
 const PLAYER_COLORS: { [key: string]: string } = {
     "0"  : "#FF6666",
@@ -15,8 +15,17 @@ const PLAYER_COLORS: { [key: string]: string } = {
     "3"  : "#FFFF99"
 };
 
-const Card: React.FC<CardProps> = ({ index, player }) => {
-    return <CardLabel done={ player > -1 } color={ PLAYER_COLORS[player.toString()] }>{ getCardName(index) }</CardLabel>
+const Card: React.FC<CardProps> = ({ index, suitIndex, player }) => {
+    const backgroundPosition = React.useMemo(() => {
+        const actualIndex = fixCardIndex(index);
+        return `-${suitIndex * CARDS_SPRITE_X_MULTIPLIER}px -${CARDS_SPRITE_Y_MULTIPLIER * actualIndex}px`;
+    }, [index, suitIndex]);
+
+    return (
+        <CardLabel done={player > -1}
+                   style={{ backgroundPosition }}
+                   color={PLAYER_COLORS[player.toString()]} />
+    );
 };
 
 export default Card;
