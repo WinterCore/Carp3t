@@ -20,7 +20,7 @@ const SUITS = {
 // DIAMONDS
 // CLUBS
 
-const generateEmptySuit = () => Array.from({ length : 13}).map(() => -1);
+const generateEmptySuit = () => Array.from({ length : 13 }).map(() => -1);
 
 const getCardData = (id: number): [Symbol, number] => {
     if (id < 13) {
@@ -73,7 +73,7 @@ const CardsTracker = () => {
                     return clubs;
                 });
                 break;
-        }
+            }
         });
 
         Spy.addSpy(GameEvent.GAME_INIT, () => {
@@ -96,25 +96,25 @@ const CardsTracker = () => {
             <SuitContainer>
                 <Suit style={{ backgroundPosition: `-${0 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
                 <CardsContainer>
-                    {hearts.map((player, i) => <Card suitIndex={0} key={i} index={i} player={player} />)}
+                    {spades.map((player, i) => <Card suitIndex={0} key={i} index={i} player={player} />)}
                 </CardsContainer>
             </SuitContainer>
             <SuitContainer>
                 <Suit style={{ backgroundPosition: `-${1 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
                 <CardsContainer>
-                    {diamonds.map((player, i) => <Card suitIndex={1} key={i} index={i} player={player} />)}
+                    {clubs.map((player, i) => <Card suitIndex={1} key={i} index={i} player={player} />)}
                 </CardsContainer>
             </SuitContainer>
             <SuitContainer>
                 <Suit style={{ backgroundPosition: `-${2 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
                 <CardsContainer>
-                    {spades.map((player, i) => <Card suitIndex={2} key={i} index={i} player={player} />)}
+                    {diamonds.map((player, i) => <Card suitIndex={2} key={i} index={i} player={player} />)}
                 </CardsContainer>
             </SuitContainer>
             <SuitContainer>
                 <Suit style={{ backgroundPosition: `-${3 * CARDS_SPRITE_X_MULTIPLIER + CARDS_SPRITE_SUIT_X_POS}px -${CARDS_SPRITE_SUIT_Y_POS}px` }} />
                 <CardsContainer>
-                    {clubs.map((player, i) => <Card suitIndex={3} key={i} index={i} player={player} />)}
+                    {hearts.map((player, i) => <Card suitIndex={3} key={i} index={i} player={player} />)}
                 </CardsContainer>
             </SuitContainer>
         </Tracker>
