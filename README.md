@@ -1,6 +1,6 @@
 # Carp3t
 
-Carpet is a cards tracker for (https://jawaker.com)[Jawaker]
+Carpet is a cards tracker for [Jawaker](https://jawaker.com)
 
 <br />
 <br />
